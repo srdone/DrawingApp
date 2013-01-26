@@ -6,7 +6,7 @@ import java.awt.Container;
 
 public abstract class Shape {
   private int x1 = 10, y1 = 10, x2 = 20, y2 = 20;
-  private Color lineColor = Color.BLUE;
+  private Color lineColor = Color.BLACK;
 
   //Strings for testing against in the change() method.
   //Each variable has a corresponding string
@@ -61,14 +61,6 @@ public abstract class Shape {
     return lineColor;
   }
   
-  public int getWidth() {
-    return Math.abs(getX2() - getX1());
-  }
-  
-  public int getHeight() {
-    return Math.abs(getY2() - getY1());
-  }
-  
   public void setX1(int x1) {
     this.x1 = x1;
   }
@@ -87,14 +79,6 @@ public abstract class Shape {
   
   public void setLineColor(Color lineColor) {
     this.lineColor = lineColor;
-  }
-  
-  public void setWidth(int width) {
-    setX2(getX1() + width);
-  }
-  
-  public void setHeight(int height) {
-    setY2(getY1() + height);
   }
   
   public String toString() {

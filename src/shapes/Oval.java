@@ -17,15 +17,16 @@ public class Oval extends ClosedShape {
     Color oldColor = g.getColor();
     if (isFilled()) {
       g.setColor(getFillColor());
-      g.fillOval(getX1(), getY1(), getX2(), getY2());
+      g.fillOval(Math.min(getX1(), getX2()), Math.min(getY1(), getY2()), getWidth(), getHeight());
     }
     g.setColor(getLineColor());
-    g.drawOval(getX1(), getY1(), getX2(), getY2());
+    g.drawOval(Math.min(getX1(), getX2()), Math.min(getY1(), getY2()), getWidth(), getHeight());
     g.setColor(oldColor);
   }
   
   public String toString() {
     return "Oval: \n\tx = " + getX1() + "\n\ty = " + getY1() + 
+        "\n\tx2 = " + getX2() + "\n\ty2 = " + getY2() +
         "\n\tw = " + getWidth() + "\n\th = " + getHeight();
   }
 

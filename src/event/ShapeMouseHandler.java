@@ -4,6 +4,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import model.Model;
+import shapes.ClosedShape;
 import shapes.Rectangle;
 import shapes.Shape;
 
@@ -41,6 +42,11 @@ public class ShapeMouseHandler extends MouseAdapter{
         shape.setY1(startY);
         shape.setX2(startX + Model.DEFAULT_WIDTH);
         shape.setY2(startY + Model.DEFAULT_HEIGHT);
+        shape.setLineColor(model.getLineColor());
+        if(shape instanceof ClosedShape) {
+        	((ClosedShape)shape).setFillColor(model.getFillColor());
+        	((ClosedShape)shape).setFilled(model.isFill());
+        }
         System.out.println(shape);
       }
       //tell the model to repaint the applet or application.
@@ -58,14 +64,12 @@ public class ShapeMouseHandler extends MouseAdapter{
     if (shape != null) {
       //if we are in DRAW mode.
       if (model.getAction() == Model.DRAW) {
-        //set the x and y location of the shape (allows rubber banding)
-        //We use min and max to give the draw commands the values in the right order.
-        shape.setX1(Math.min(startX, e.getX()));
-        shape.setY1(Math.min(startY, e.getY()));
+        shape.setX1(startX);
+        shape.setY1(startY);
         System.out.println(shape);
       }
-      shape.setX2(Math.max(startX, e.getX()));
-      shape.setY2(Math.max(startY, e.getY()));
+      shape.setX2(e.getX());
+      shape.setY2(e.getY());
       System.out.println(shape);
     }
     // tell the model to repaint the applet or application

@@ -6,7 +6,7 @@ import interfaces.*;
 
 public abstract class ClosedShape extends Shape implements Fillable {
   private boolean filled = false;
-  private Color fillColor = Color.RED;
+  private Color fillColor = Color.BLACK;
 
   public static final String strFilled = "filled", strFillColor = "fillColor";
   
@@ -47,12 +47,28 @@ public abstract class ClosedShape extends Shape implements Fillable {
     return fillColor;
   }
   
+  public int getWidth() {
+    return Math.abs(getX2() - getX1());
+  }
+  
+  public int getHeight() {
+    return Math.abs(getY2() - getY1());
+  }
+  
   public void setFillColor(Color fillColor) {
     this.fillColor = fillColor;
   }
   
   public void setFilled(boolean filled) {
     this.filled = filled;
+  }
+  
+  public void setWidth(int width) {
+    setX2(getX1() + width);
+  }
+  
+  public void setHeight(int height) {
+    setY2(getY1() + height);
   }
   
   

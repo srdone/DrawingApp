@@ -17,17 +17,19 @@ public class Rectangle extends ClosedShape {
     Color oldColor = g.getColor();
     if (isFilled()) {
       g.setColor(getFillColor());
-      g.fillRect(getX1(), getY1(), getWidth(), getHeight());
+      g.fillRect(Math.min(getX1(), getX2()), Math.min(getY1(), getY2()), getWidth(), getHeight());
     }
     g.setColor(getLineColor());
-    g.drawRect(getX1(), getY1(), getWidth(), getHeight());
+    g.drawRect(Math.min(getX1(), getX2()), Math.min(getY1(), getY2()), getWidth(), getHeight());
     g.setColor(oldColor);
   }
   
   public String toString() {
-    return "Rectangle: \n\tx = " + getX1() + "\n\ty = " + getY1() + 
+    return "Rectangle: \n\tx = " + getX1() + "\n\ty = " + getY1() +
+    	"\n\tx2 = " + getX2() + "\n\ty2 = " + getY2() +
         "\n\tw = " + getWidth() + "\n\th = " + getHeight() + 
         "\n\tlc = " + getLineColor() + "\n\tfc = " + getFillColor();
   }
+  
 
 }

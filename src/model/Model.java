@@ -6,6 +6,7 @@ import java.awt.Color;
 import shapes.*;
 import java.awt.Container;
 
+import enums.Colors;
 import enums.ShapeType;
 import interfaces.Resettable;
 
@@ -19,6 +20,7 @@ public class Model implements Resettable {
   public final static String FILL = "Fill";
   
   public final static ShapeType[] SHAPE_CHOICES = ShapeType.values();
+  public final static Colors[] COLOR_CHOICES = Colors.values();
   
   public final static int MAIN_WINDOW_SIZE_X = 600;
   public final static int MAIN_WINDOW_SIZE_Y = 400;
@@ -30,6 +32,8 @@ public class Model implements Resettable {
   private boolean fill = false;
   private ShapeType currentShapeType = ShapeType.RECTANGLE;
   private Shape currentShape;
+  private Color lineColor = Color.RED;
+  private Color fillColor = Color.RED;
   
   public Shape createShape() {
     switch(currentShapeType) {
@@ -75,6 +79,14 @@ public class Model implements Resettable {
     return fill;
   }
   
+  public Color getLineColor() {
+	  return lineColor;
+  }
+  
+  public Color getFillColor() {
+	  return fillColor;
+  }
+  
   public void setFill(boolean fill) {
     this.fill = fill;
   }
@@ -89,6 +101,14 @@ public class Model implements Resettable {
   
   public void setCurrentShape(Shape shape) {
     this.currentShape = shape;
+  }
+  
+  public void setFillColor(Color fillColor) {
+	  this.fillColor = fillColor;
+  }
+  
+  public void setLineColor(Color lineColor) {
+	  this.lineColor = lineColor;
   }
   
   public String toString() {
