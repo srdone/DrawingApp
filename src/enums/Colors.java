@@ -37,5 +37,3 @@ public enum Colors {
   }
   
 }
-
-//Add to controls panel

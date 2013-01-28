@@ -23,6 +23,7 @@ public class MainPanel extends Panel implements Resettable {
   public void resetComponents() {
     controlsPanel.resetComponents();
     actionPanel.resetComponents();
+    choicePanel.resetComponents();
   }
 
 }

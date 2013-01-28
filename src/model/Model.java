@@ -28,6 +28,8 @@ public class Model implements Resettable {
   public final static int DEFAULT_WIDTH = 50;
   public final static int DEFAULT_HEIGHT = 50;
   
+  public final static String DEFAULT_COLOR = "Red";
+  
   private String action = DRAW;
   private boolean fill = false;
   private ShapeType currentShapeType = ShapeType.RECTANGLE;
@@ -58,6 +60,8 @@ public class Model implements Resettable {
     fill = false;
     currentShapeType = ShapeType.RECTANGLE;
     currentShape = null;
+    lineColor = Color.RED;
+    fillColor = Color.RED;
     if(container instanceof Resettable) {
       ((Resettable)container).resetComponents();
     }
@@ -112,7 +116,8 @@ public class Model implements Resettable {
   }
   
   public String toString() {
-    return "Model:\n\tAction: " + action + "\n\tShape: " + currentShapeType + "\n\tFill: " + fill;
+    return "Model:\n\tAction: " + action + "\n\tShape: " + currentShapeType + "\n\tFill: " + fill 
+    		+ "\n\tLine Color: " + lineColor + "\n\tFill Color: " + fillColor;
   }
 
 }

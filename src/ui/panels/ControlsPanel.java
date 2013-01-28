@@ -29,7 +29,7 @@ public class ControlsPanel extends Panel implements Resettable{
   }
   
   public void resetComponents() {
-    
+    colorChoice.resetComponents();
   }
   
   static class ColorChoicePanel extends Panel implements Resettable {
@@ -76,9 +76,11 @@ public class ControlsPanel extends Panel implements Resettable{
 	  }
 	  
 	  public void resetComponents() {
-	    fillColorChoice.select(model.getFillColor().toString());
-	    lineColorChoice.select(model.getLineColor().toString());
+	    fillColorChoice.select(Model.DEFAULT_COLOR);
+	    lineColorChoice.select(Model.DEFAULT_COLOR);
 	  }
   }
 
 }
+
+//TODO Panels not resetting
