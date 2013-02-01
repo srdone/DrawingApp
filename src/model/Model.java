@@ -4,6 +4,7 @@ package model;
 
 import java.awt.Color;
 import shapes.*;
+
 import java.awt.Container;
 
 import enums.Colors;
@@ -36,15 +37,20 @@ public class Model implements Resettable {
   private Shape currentShape;
   private Color lineColor = Color.RED;
   private Color fillColor = Color.RED;
+  private Shape[] shapeArray = new Shape[2];
   
   public Shape createShape() {
-    switch(currentShapeType) {
-    case RECTANGLE: currentShape = new Rectangle(); break;
-    case OVAL: currentShape = new Oval(); break;
-    case LINE: currentShape = new Line(); break;
-    default: currentShape = null; break;
-    }
-    return currentShape;
+	  //if there is a shape in the second position (position 1), then we have a full array and need to reset it.
+	  if (shapeArray[1] != null) {shapeArray = new Shape[2];}; 
+	  switch(currentShapeType) {
+	  case RECTANGLE: currentShape = new Rectangle(); break;
+	  case OVAL: currentShape = new Oval(); break;
+	  case LINE: currentShape = new Line(); break;
+	  default: currentShape = null; break;
+	  }
+	  //if there is no shape in slot 0, put the new shape there. Otherwise, put it in slot 1.
+	  if(shapeArray[0] == null) {shapeArray[0] = currentShape;} else {shapeArray[1] = currentShape;}
+	  return currentShape;
   }
   
   public Model (Container container) {
@@ -77,6 +83,10 @@ public class Model implements Resettable {
   
   public Shape getCurrentShape() {
     return currentShape;
+  }
+  
+  public Shape[] getShapeArray() {
+	  return shapeArray;
   }
   
   public boolean isFill() {

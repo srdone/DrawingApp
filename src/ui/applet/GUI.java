@@ -13,6 +13,7 @@ import shapes.Shape;
 public class GUI extends Applet implements Resettable {
   MainPanel mainPanel;
   Model model;
+  Shape[] shapesToDraw;
   
   public void init() {
     resize(Model.MAIN_WINDOW_SIZE_X, Model.MAIN_WINDOW_SIZE_Y);
@@ -25,13 +26,14 @@ public class GUI extends Applet implements Resettable {
   }
   
   public void paint(Graphics g) {
-    Shape shape;
-    shape = model.getCurrentShape();
-    if(shape != null) {
-      shape.draw(g);
-    }
-    System.out.println(model);
-    System.out.println(shape);
+	  shapesToDraw = model.getShapeArray();
+	  for(int i = 0 ; i < shapesToDraw.length; i++) {
+		  if(shapesToDraw[i] != null) {
+			  shapesToDraw[i].draw(g);
+		  }
+		  System.out.println(model);
+		  System.out.println(shapesToDraw[i]);
+	  }
   }
   
   public void resetComponents() {
