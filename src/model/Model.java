@@ -6,6 +6,7 @@ import java.awt.Color;
 import shapes.*;
 
 import java.awt.Container;
+import java.util.ArrayList;
 
 import enums.Colors;
 import enums.ShapeType;
@@ -43,34 +44,42 @@ public class Model implements Resettable {
   private Shape currentShape;
   private Color lineColor = Color.RED;
   private Color fillColor = Color.RED;
-  private Shape[] shapeArray = new Shape[2];
+  private ArrayList<Shape> shapeArray = new ArrayList<Shape>();
   
-  public Shape createShape() {
-	  //if there is a shape in the second position (position 1), then we have a full array and need to reset it.
-	  if (shapeArray[1] != null) {shapeArray = new Shape[2];}; 
+  public Shape createShape() { 
 	  switch(currentShapeType) {
 	  case RECTANGLE: currentShape = new Rectangle(); break;
 	  case OVAL: currentShape = new Oval(); break;
 	  case LINE: currentShape = new Line(); break;
 	  default: currentShape = null; break;
 	  }
-	  //if there is no shape in slot 0, put the new shape there. Otherwise, put it in slot 1.
-	  if(shapeArray[0] == null) {shapeArray[0] = currentShape;} else {shapeArray[1] = currentShape;}
+	  shapeArray.add(currentShape);
+	  printShapeArrayStatus();
 	  return currentShape;
   }
   
-  public int compareShapes() {
-	  //if then else to return -1 (0 less than 1); 0 (same size) 1 (0 larger than 1), 3 if not comparable
-	  if(shapeArray[0] instanceof ComparableShape && shapeArray[1] instanceof ComparableShape) {
-	  if (((ComparableShape) shapeArray[0]).getArea() < ((ComparableShape) shapeArray[1]).getArea()) {return -1;} 
-	  else if (((ComparableShape) shapeArray[0]).getArea() == ((ComparableShape) shapeArray[1]).getArea()) {return 0;}
-	  else if (((ComparableShape) shapeArray[0]).getArea() > ((ComparableShape) shapeArray[1]).getArea()) {return 1;}
-	  //TODO Display result somewhere
+  /*
+   * if then else to return -1 (a smaller than than b); 0 (same size) 1 (a larger than b), 3 if not comparable
+   */
+  public int compareShapes(Shape a, Shape b) {
+	  if(a instanceof ComparableShape && b instanceof ComparableShape) {
+	  if (((ComparableShape) a).getArea() < ((ComparableShape) b).getArea()) {return -1;} 
+	  else if (((ComparableShape) a).getArea() == ((ComparableShape) b).getArea()) {return 0;}
+	  else if (((ComparableShape) a).getArea() > ((ComparableShape) b).getArea()) {return 1;}
 	  }
-	  return 3;
+	  return -9;
   }
   
-  public Model (Container container) {
+  /*
+   * This method writes the list of objects in the array to the console
+   */
+  private void printShapeArrayStatus() {
+	for(Shape shape : shapeArray) {
+		System.out.println("Element " + (shapeArray.indexOf(shape) + 1) + " is a " + shape.toString().substring(0,shape.toString().indexOf(":")));
+	}
+}
+
+public Model (Container container) {
     this.container = container;
   }
   
@@ -102,7 +111,7 @@ public class Model implements Resettable {
     return currentShape;
   }
   
-  public Shape[] getShapeArray() {
+  public ArrayList<Shape> getShapeArray() {
 	  return shapeArray;
   }
   

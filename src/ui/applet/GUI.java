@@ -2,6 +2,8 @@ package ui.applet;
 
 import java.applet.Applet;
 import java.awt.Graphics;
+import java.util.ArrayList;
+
 import model.Model;
 import ui.panels.MainPanel;
 import interfaces.ComparableShape;
@@ -14,7 +16,7 @@ import shapes.Shape;
 public class GUI extends Applet implements Resettable {
   MainPanel mainPanel;
   Model model;
-  Shape[] shapesToDraw;
+  ArrayList<Shape> shapesToDraw;
   
   public void init() {
     resize(Model.MAIN_WINDOW_SIZE_X, Model.MAIN_WINDOW_SIZE_Y);
@@ -28,27 +30,31 @@ public class GUI extends Applet implements Resettable {
   
   public void paint(Graphics g) {
 	  shapesToDraw = model.getShapeArray();
-	  for(int i = 0 ; i < shapesToDraw.length; i++) {
-		  if(shapesToDraw[i] != null) {
-			  shapesToDraw[i].draw(g);								//draw shape at index i
-			  g.drawString("Shape " + (i + 1), shapesToDraw[i].getX1(), shapesToDraw[i].getY1());
+	  for(Shape shape : shapesToDraw) {
+		  if(shape != null) {
+			  shape.draw(g);								//draw shape at index i
+			  g.drawString("Shape " + (shapesToDraw.indexOf(shape) + 1), shape.getX1(), shape.getY1());		//Draw labels on each shape
 		  }
-		  //make sure both shapes are comparable, then do the compare
-		  if(shapesToDraw[0] instanceof ComparableShape && shapesToDraw[1] != null && shapesToDraw[1] instanceof ComparableShape) {
-			  drawCompareResults(g);
-		  } else if(shapesToDraw[1] != null) {
-			  g.drawString(Model.NOT_COMPARABLE, 10, Model.MAIN_WINDOW_SIZE_Y - 10);
-			  }
+		  //make sure both shapes are comparable, then do the compare. Currently commented out as we don't have a way to choose ones to compare
+//		  if(shapeToDraw instanceof ComparableShape && shapesToDraw[1] != null && shapesToDraw[1] instanceof ComparableShape) {
+//			  drawCompareResults(g);
+//		  } else if(shapesToDraw[1] != null) {
+//			  g.drawString(Model.NOT_COMPARABLE, 10, Model.MAIN_WINDOW_SIZE_Y - 10);
+//			  }
 		  System.out.println(model);
-		  System.out.println(shapesToDraw[i]);
+		  System.out.println(shape);
 	  }
   }
   
-  public void drawCompareResults(Graphics g) {
-	  switch(model.compareShapes()) {							//TODO Create output for comparables
+  /*
+   * Display the results of comparing two shapes on the screen
+   */
+  public void drawCompareResults(Shape a, Shape b, Graphics g) {
+	  switch(model.compareShapes(a,b)) {
 	  case -1: g.drawString(Model.TWO_BIGGER_THAN_ONE, 10, Model.MAIN_WINDOW_SIZE_Y - 10); break;			//output - 2 is bigger than 1
 	  case 0: g.drawString(Model.TWO_SAME_AS_ONE, 10, Model.MAIN_WINDOW_SIZE_Y - 10); break;											//output - 1 and 2 are the same size
-	  case 1: g.drawString(Model.TWO_SMALLER_THAN_ONE, 10, Model.MAIN_WINDOW_SIZE_Y - 10); break;											//output - 1 is bigger than 2
+	  case 1: g.drawString(Model.TWO_SMALLER_THAN_ONE, 10, Model.MAIN_WINDOW_SIZE_Y - 10); break;			//output - 1 is bigger than 2
+	  case -9: g.drawString(Model.NOT_COMPARABLE, 10, Model.MAIN_WINDOW_SIZE_Y - 10); break;				//not comparable
 	  }
   }
   
