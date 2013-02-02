@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import interfaces.*;
 
-public abstract class ClosedShape extends Shape implements Fillable {
+public abstract class ClosedShape extends Shape implements Fillable, ComparableShape {
   private boolean filled = false;
   private Color fillColor = Color.BLACK;
 
@@ -37,6 +37,12 @@ public abstract class ClosedShape extends Shape implements Fillable {
       return true;
     }
     return false;
+  }
+  
+  public double getArea() {
+	  double width = Math.abs(getX1() - getX2());
+	  double height = Math.abs(getY1() - getY2());
+	  return (width * height);
   }
   
   public boolean isFilled() {

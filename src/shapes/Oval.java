@@ -24,6 +24,12 @@ public class Oval extends ClosedShape {
     g.setColor(oldColor);
   }
   
+  public double getArea() {
+	  double width = Math.abs(getX1() - getX2());
+	  double height = Math.abs(getY1() - getY2());
+	  return (width * height * .8);
+  }
+  
   public String toString() {
     return "Oval: \n\tx = " + getX1() + "\n\ty = " + getY1() + 
         "\n\tx2 = " + getX2() + "\n\ty2 = " + getY2() +

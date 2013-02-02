@@ -9,6 +9,7 @@ import java.awt.Container;
 
 import enums.Colors;
 import enums.ShapeType;
+import interfaces.ComparableShape;
 import interfaces.Resettable;
 
 public class Model implements Resettable {
@@ -19,6 +20,11 @@ public class Model implements Resettable {
   public final static String RESIZE = "Resize";
   public final static String CHANGE = "Change";
   public final static String FILL = "Fill";
+  
+  public final static String TWO_BIGGER_THAN_ONE = "Shape 2 is bigger than Shape 1";
+  public final static String TWO_SAME_AS_ONE = "Shape 2 is the same size as Shape 1";
+  public final static String TWO_SMALLER_THAN_ONE = "Shape 2 is smaller than Shape 1";
+  public final static String NOT_COMPARABLE = "One or more shapes doesn't have an area";
   
   public final static ShapeType[] SHAPE_CHOICES = ShapeType.values();
   public final static Colors[] COLOR_CHOICES = Colors.values();
@@ -51,6 +57,17 @@ public class Model implements Resettable {
 	  //if there is no shape in slot 0, put the new shape there. Otherwise, put it in slot 1.
 	  if(shapeArray[0] == null) {shapeArray[0] = currentShape;} else {shapeArray[1] = currentShape;}
 	  return currentShape;
+  }
+  
+  public int compareShapes() {
+	  //if then else to return -1 (0 less than 1); 0 (same size) 1 (0 larger than 1), 3 if not comparable
+	  if(shapeArray[0] instanceof ComparableShape && shapeArray[1] instanceof ComparableShape) {
+	  if (((ComparableShape) shapeArray[0]).getArea() < ((ComparableShape) shapeArray[1]).getArea()) {return -1;} 
+	  else if (((ComparableShape) shapeArray[0]).getArea() == ((ComparableShape) shapeArray[1]).getArea()) {return 0;}
+	  else if (((ComparableShape) shapeArray[0]).getArea() > ((ComparableShape) shapeArray[1]).getArea()) {return 1;}
+	  //TODO Display result somewhere
+	  }
+	  return 3;
   }
   
   public Model (Container container) {
@@ -124,6 +141,7 @@ public class Model implements Resettable {
   public void setLineColor(Color lineColor) {
 	  this.lineColor = lineColor;
   }
+  
   
   public String toString() {
     return "Model:\n\tAction: " + action + "\n\tShape: " + currentShapeType + "\n\tFill: " + fill 

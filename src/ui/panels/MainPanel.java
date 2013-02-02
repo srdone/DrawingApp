@@ -2,6 +2,7 @@ package ui.panels;
 
 import interfaces.Resettable;
 import java.awt.GridLayout;
+import java.awt.Label;
 import java.awt.Panel;
 import model.Model;
 
