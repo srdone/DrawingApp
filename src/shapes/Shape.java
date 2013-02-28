@@ -7,10 +7,6 @@ import java.awt.Container;
 public abstract class Shape {
   private int x1 = 10, y1 = 10, x2 = 20, y2 = 20;
   private Color lineColor = Color.BLACK;
-
-  //Strings for testing against in the change() method.
-  //Each variable has a corresponding string
-  private static final String strX1 = "x1", strX2 = "x2", strY1 = "y1", strY2 = "y2", strLineColor = "lineColor";
   
   public Shape() {
     
@@ -24,22 +20,13 @@ public abstract class Shape {
   
   public abstract void draw(Graphics g);
   
-  public abstract boolean containsLocation(int x, int y);
-  
-  public abstract void move(int x1, int y1);
-  
-  public abstract void resize(int x1, int y1, int x2, int y2);
-  
-  //Takes pairs of strings - the first one is the value that should be changed, the second is the new value.
-  //The method interprets what has to be done by matching strings to pre-determined strings.
-  public void change(String[][] toChange) {
-    
-  }
-  
-  //Removes the shape from the area where displayed
-  public void remove() {
-    
-  }
+  public boolean containsLocation(int x, int y) {
+	    if (Math.min(getX1(), getX2()) <= x && Math.min(getY1(), getY2()) <= y 
+	    		&& Math.max(getX1(), getX2()) >= x && Math.max(getY1(), getY2()) >=y  ) {
+	      return true;
+	    }
+	    return false;
+	  }
   
   public int getX1() {
     return x1;
@@ -86,5 +73,3 @@ public abstract class Shape {
   }
 
 }
-
-//Need to put width into shapeMouseHandler

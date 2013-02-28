@@ -7,6 +7,8 @@ import shapes.*;
 
 import java.awt.Container;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.ListIterator;
 
 import enums.Colors;
 import enums.ShapeType;
@@ -53,7 +55,7 @@ public class Model implements Resettable {
 	  case LINE: currentShape = new Line(); break;
 	  default: currentShape = null; break;
 	  }
-	  shapeArray.add(currentShape);
+	  shapeArray.add(shapeArray.size(), currentShape);
 	  printShapeArrayStatus();
 	  return currentShape;
   }
@@ -78,6 +80,22 @@ public class Model implements Resettable {
 		System.out.println("Element " + (shapeArray.indexOf(shape) + 1) + " is a " + shape.toString().substring(0,shape.toString().indexOf(":")));
 	}
 }
+  
+  /**
+   * This method takes an x and y coordinate (point) and returns the most recently drawn shape that contains the point.
+   * @param x x coordinate of point
+   * @param y y coordinate of point
+   * @return Shape containing the (x,y) point. If there is more than one shape, returns the most recently drawn shape
+   */
+  public Shape getShapeAt(int x, int y) {
+	  ListIterator<Shape> itr = shapeArray.listIterator(shapeArray.size());
+	  while(itr.hasPrevious()) {
+		  Shape shape = itr.previous();
+		  if(shape.containsLocation(x,y)) return shape;
+	  }
+	  System.out.println("NULL SHAPE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	  return null;
+  }
 
 public Model (Container container) {
     this.container = container;
@@ -92,6 +110,7 @@ public Model (Container container) {
     fill = false;
     currentShapeType = ShapeType.RECTANGLE;
     currentShape = null;
+    shapeArray = new ArrayList<Shape>();				//Clear all shapes from screen
     lineColor = Color.RED;
     fillColor = Color.RED;
     if(container instanceof Resettable) {
