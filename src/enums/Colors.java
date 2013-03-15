@@ -11,42 +11,30 @@ import java.awt.Color;
  */
 public enum Colors {
   
-  RED("Red", new Color(255, 0, 0)),
-  ORANGE("Orange", new Color(255, 127, 0)),
-  YELLOW("Yellow", new Color(255, 255, 0)),
-  GREEN("Green", new Color(0, 255, 0)),
-  BLUE("Blue", new Color(0, 0, 255)),
-  INDIGO("Indigo", new Color(75, 0, 130)),
-  VIOLET("Violet", new Color(143, 0, 255)),
-  BLACK("Black", Color.BLACK);
+  RED(new Color(255, 0, 0)),
+  ORANGE(new Color(255, 127, 0)),
+  YELLOW(new Color(255, 255, 0)),
+  GREEN(new Color(0, 255, 0)),
+  BLUE(new Color(0, 0, 255)),
+  INDIGO(new Color(75, 0, 130)),
+  VIOLET(new Color(143, 0, 255)),
+  BLACK(Color.BLACK);
   
-  private String colorText;
   private Color color;
   
-  Colors(String colorText, Color color) {
-    this.colorText = colorText;
+  /**
+   * Assigns a Color object to each enum, to be used to easily convert from enum to the intended color.
+   * @param color is used to assign an actual color value to the enumeration.
+   */
+  Colors(Color color) {
     this.color = color;
   }
   
-  public String toString() {
-    return colorText;
-  }
-  
+  /*
+   * Returns the Color object corresponding to the Colors enumerated value.
+   */
   public Color getColor() {
 	  return color;
-  }
-  
-  /**
-   * Takes a text value and converts it to the corresponding Color value,
-   * as defined by the enumerated color name values.
-   * @param colorText
-   * @return The corresponding Color value for the text received.
-   */
-  public static Color toType(String colorText) {
-    for(Colors colorType : Colors.values()) {
-      if (colorText.equals(colorType.toString())) return colorType.getColor();
-    }
-    return Color.BLACK;
   }
   
 }

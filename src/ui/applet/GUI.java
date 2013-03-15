@@ -13,21 +13,51 @@ import event.ShapeMouseHandler;
 
 import shapes.Shape;
 
+/**
+ * GUI handles the applet initialization and the paint process.
+ */
 public class GUI extends Applet implements Resettable {
   MainPanel mainPanel;
   Model model;
   ArrayList<Shape> shapesToDraw;
   
+  /*
+   * Declares the window size and instantiates all objects needed to start the applet
+   * (non-Javadoc)
+   * @see java.applet.Applet#init()
+   */
   public void init() {
-    resize(Model.MAIN_WINDOW_SIZE_X, Model.MAIN_WINDOW_SIZE_Y);
-    model = new Model(this);                                        //Create new instance of a model, and give the GUI as the container
-    mainPanel = new MainPanel(model);                               //Create a new MainPanel and give it the model
-    add(mainPanel);                                                 //Add the mainpanel to the screen
-    ShapeMouseHandler mouseHandler = new ShapeMouseHandler(model);  //Create a new instance of ShapeMouseHandler and give it the model
-    addMouseListener(mouseHandler);                                 //Add a mouseListener to the GUI so the mouseHandler receives events from it.
-    addMouseMotionListener(mouseHandler);                           //Same as above, but a mouseMotionListener
+    initializeGUIComponents();
+    initializeMouseHandlerAndAddListeners();
   }
   
+  /*
+   * Declare window size.
+   * Create an instance of model for all components to communicate with.
+   * Create an instance of the main panel, which contains all the controls, and add it to the GUI.
+   */
+  private void initializeGUIComponents() {
+	  resize(Model.MAIN_WINDOW_SIZE_X, Model.MAIN_WINDOW_SIZE_Y);
+	    model = new Model(this);                                        //Create new instance of a model, and give the GUI as the container
+	    mainPanel = new MainPanel(model);                               //Create a new MainPanel and give it the model
+	    add(mainPanel);                                                 //Add the mainpanel to the screen
+  }
+  
+  /*
+   * Initialize the mouse handler and add the mouse listeners to the GUI. 
+   */
+  private void initializeMouseHandlerAndAddListeners() {
+	  ShapeMouseHandler mouseHandler = new ShapeMouseHandler(model);  //Create a new instance of ShapeMouseHandler and give it the model
+	    addMouseListener(mouseHandler);                                 //Add a mouseListener to the GUI so the mouseHandler receives events from it.
+	    addMouseMotionListener(mouseHandler);                           //Same as above, but a mouseMotionListener
+  }
+  
+  
+  /*
+   * When paint is called, draw all the shapes currently in the model and draw a string showing the name of the shape
+   * (non-Javadoc)
+   * @see java.awt.Container#paint(java.awt.Graphics)
+   */
   public void paint(Graphics g) {
 	  shapesToDraw = model.getShapeArray();
 	  for(Shape shape : shapesToDraw) {
@@ -35,29 +65,16 @@ public class GUI extends Applet implements Resettable {
 			  shape.draw(g);								//draw shape at index i
 			  g.drawString("Shape " + (shapesToDraw.indexOf(shape) + 1), shape.getX1(), shape.getY1());		//Draw labels on each shape
 		  }
-		  //make sure both shapes are comparable, then do the compare. Currently commented out as we don't have a way to choose ones to compare
-//		  if(shapeToDraw instanceof ComparableShape && shapesToDraw[1] != null && shapesToDraw[1] instanceof ComparableShape) {
-//			  drawCompareResults(g);
-//		  } else if(shapesToDraw[1] != null) {
-//			  g.drawString(Model.NOT_COMPARABLE, 10, Model.MAIN_WINDOW_SIZE_Y - 10);
-//			  }
 		  System.out.println(model);
 		  System.out.println(shape);
 	  }
   }
   
   /*
-   * Display the results of comparing two shapes on the screen
+   * Sends the reset components command to all parts of the mainPanel.
+   * (non-Javadoc)
+   * @see interfaces.Resettable#resetComponents()
    */
-  public void drawCompareResults(Shape a, Shape b, Graphics g) {
-	  switch(model.compareShapes(a,b)) {
-	  case -1: g.drawString(Model.TWO_BIGGER_THAN_ONE, 10, Model.MAIN_WINDOW_SIZE_Y - 10); break;			//output - 2 is bigger than 1
-	  case 0: g.drawString(Model.TWO_SAME_AS_ONE, 10, Model.MAIN_WINDOW_SIZE_Y - 10); break;											//output - 1 and 2 are the same size
-	  case 1: g.drawString(Model.TWO_SMALLER_THAN_ONE, 10, Model.MAIN_WINDOW_SIZE_Y - 10); break;			//output - 1 is bigger than 2
-	  case -9: g.drawString(Model.NOT_COMPARABLE, 10, Model.MAIN_WINDOW_SIZE_Y - 10); break;				//not comparable
-	  }
-  }
-  
   public void resetComponents() {
     mainPanel.resetComponents();
   }
