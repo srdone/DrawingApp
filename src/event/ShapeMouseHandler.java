@@ -8,6 +8,11 @@ import shapes.ClosedShape;
 import shapes.Rectangle;
 import shapes.Shape;
 
+/**
+ * Handles the actions when the mouse interacts with the applet.
+ * @author Stephen
+ *
+ */
 public class ShapeMouseHandler extends MouseAdapter{
 	private Model model;
 	private int startX;
@@ -74,11 +79,18 @@ public class ShapeMouseHandler extends MouseAdapter{
 		model.repaint();
 	}
 	
+	/*
+	 * Sets the X1 and Y1 values at the point where the mouse is first clicked.
+	 */
 	private void setFirstAnchorPoint(MouseEvent e) {
 		startX = e.getX();
 		startY = e.getY();
 	}
 	
+	/*
+	 * Sets the top left corner of the given shape where the mouse was pressed
+	 * and set the default width and height of the shape.
+	 */
 	private void setInitialSpatialDimensions() {
 		//set its upper left x and y to where the mouse was pressed.
 		shape.setX1(startX);
@@ -87,6 +99,10 @@ public class ShapeMouseHandler extends MouseAdapter{
 		shape.setY2(startY + Model.DEFAULT_HEIGHT);
 	}
 	
+	/*
+	 * Sets the fill color of the shape to the fill color in the model.
+	 * Sets the fill state to the fill state of the model.
+	 */
 	private void setFill(ClosedShape shape) {
 		((ClosedShape)shape).setFillColor(model.getFillColor());
 		((ClosedShape)shape).setFilled(model.isFill());
@@ -116,8 +132,6 @@ public class ShapeMouseHandler extends MouseAdapter{
 		model.repaint();
 	}
 
-
-
 	/*
 	 * Draws the current shape as the mouse is dragged across the screen.
 	 */
@@ -143,6 +157,10 @@ public class ShapeMouseHandler extends MouseAdapter{
 		}
 	}
 	
+	/*
+	 * Finds the differences between X1 and X1 and Y1 and Y2
+	 * Returns an array of two integers with the difference values, X first Y second.
+	 */
 	private int[] getDifference(MouseEvent e) {
 		int initialX1 = shape.getX1();
 		int initialY1 = shape.getY1();
@@ -152,6 +170,11 @@ public class ShapeMouseHandler extends MouseAdapter{
 		return differenceValues;
 	}
 	
+	/*
+	 * Takes an array of two integers, and sets the coordinates of the shape to the
+	 * old coordinates plus the values in the array. First element is added to the
+	 * X values, second element is added to the Y values.
+	 */
 	private void setMovements(int[] differenceValues) {
 		shape.setX1(shape.getX1() + differenceValues[0]);
 		shape.setY1(shape.getY1() + differenceValues[1]);
@@ -173,6 +196,9 @@ public class ShapeMouseHandler extends MouseAdapter{
 		}
 	}
 	
+	/*
+	 * Sets the X2 and Y2 values at the point where the mouse is released.
+	 */
 	public void setSecondAnchorPoint(MouseEvent e) {
 		shape.setX2(e.getX());
 		shape.setY2(e.getY());
