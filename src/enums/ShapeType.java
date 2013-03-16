@@ -10,6 +10,6 @@ import shapes.Shape;
  */
 public enum ShapeType {
   
-  RECTANGLE, OVAL, LINE;
+  RECTANGLE, OVAL, LINE, TRIANGLE;
   
 }

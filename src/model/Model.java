@@ -57,6 +57,7 @@ public class Model implements Resettable {
 		case RECTANGLE: currentShape = new Rectangle(); break;
 		case OVAL: currentShape = new Oval(); break;
 		case LINE: currentShape = new Line(); break;
+		case TRIANGLE: currentShape = new Triangle(); break;
 		default: currentShape = null; break;
 		}
 		//Add the shape to the end of the shape array

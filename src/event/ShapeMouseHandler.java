@@ -1,7 +1,10 @@
 package event;
 
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import enums.Actions;
 
 import model.Model;
 import shapes.ClosedShape;
@@ -18,6 +21,7 @@ public class ShapeMouseHandler extends MouseAdapter{
 	private int startX;
 	private int startY;
 	private Shape shape;
+	private boolean shapeMarkedSelected;
 
 	/**
 	 * Constructor. Sets the model for this listener.
@@ -45,9 +49,6 @@ public class ShapeMouseHandler extends MouseAdapter{
 	 * Overrides MouseAdapter's mouseDragged method and determines what to do based on the selected action.
 	 */
 	public void mouseDragged(MouseEvent e) {
-		//get the current shape handled by the model
-		//if there is a current shape in the model:
-		//if we are in DRAW mode.
 		switch (model.getAction()) {
 		case DRAW: drawDragged(e); break;
 		case MOVE: move(e); break;
@@ -55,6 +56,7 @@ public class ShapeMouseHandler extends MouseAdapter{
 		default: break;
 		}
 		model.repaint();
+		System.out.println("Mouse Dragged Called");
 	}
 
 	/*
@@ -149,14 +151,58 @@ public class ShapeMouseHandler extends MouseAdapter{
 	 * Moves the shape under the mouse from where it is to a new point. It is translated on the same vector as the mouse movement.
 	 */
 	private void move(MouseEvent e) {
-		//Move the shape under the mouse according in the same directions and amounts as the mouse is dragged.
 		if(shape == null) shape = model.getShapeAt(e.getX(), e.getY());
+		if(!shapeMarkedSelected) {
+			indicateSelectedShape(shape, true);
+			shapeMarkedSelected = true;
+		}
 		if(shape != null) {
 			setMovements(getDifference(e));
 			System.out.println(shape);
 		}
 	}
 	
+	/*
+	 * Takes the given shape and changes the lineColor and fillColor to be a little darker to indicate selection.
+	 * If selected is false, it returns the shape colors to the original state.
+	 * Pre-condition: There is a shape available, and selected is true or false
+	 * Post-condition: If selected is false, the shape colors are returned to a ligher hue.
+	 * If selected is true, the shape colors are darkened.
+	 */
+	private void indicateSelectedShape(Shape selectedShape, boolean markSelected) {
+		if(markSelected) {
+			darkenHue(selectedShape);
+		} else {
+			lightenHue(selectedShape);
+		}
+	}
+
+	/*
+	 * Make the shape lineColor and fillColor darker
+	 */
+	private void darkenHue(Shape selectedShape) {
+		Color darkerLineColor = selectedShape.getLineColor().darker().darker().darker();
+		//Set the line color to the darker line color unless that is black, then set it to white.
+		selectedShape.setLineColor((darkerLineColor == Color.BLACK) ? Color.WHITE : darkerLineColor);
+		if(selectedShape instanceof ClosedShape) {
+			Color darkerFillColor = ((ClosedShape)selectedShape).getFillColor().darker().darker().darker();
+			//Set the line color to the darker fill color unless that is black, then set it to white.
+			((ClosedShape)selectedShape).setFillColor((darkerFillColor == Color.BLACK) ? Color.WHITE : darkerFillColor);
+		}
+	}
+
+	/*
+	 * Make the shape lineColor and fillColor lighter
+	 */
+	private void lightenHue(Shape selectedShape) {
+		Color lighterLineColor = selectedShape.getLineColor().brighter().brighter().brighter();
+		selectedShape.setLineColor((lighterLineColor == Color.WHITE) ? Color.BLACK : lighterLineColor);
+		if(selectedShape instanceof ClosedShape) {
+			Color lighterFillColor = ((ClosedShape) selectedShape).getFillColor().brighter().brighter().brighter();
+			((ClosedShape)selectedShape).setFillColor((lighterFillColor == Color.WHITE) ? Color.BLACK : lighterFillColor);
+		}
+	}
+
 	/*
 	 * Finds the differences between X1 and X1 and Y1 and Y2
 	 * Returns an array of two integers with the difference values, X first Y second.
@@ -188,6 +234,10 @@ public class ShapeMouseHandler extends MouseAdapter{
 	private void resize(MouseEvent e) {
 		//Rezize
 		if(shape == null) shape = model.getShapeAt(e.getX(), e.getY());
+		if(!shapeMarkedSelected) {
+			indicateSelectedShape(shape, true);
+			shapeMarkedSelected = true;
+		}
 		if(shape != null) {
 			System.out.println(shape);
 			//change the position of one corner, thereby stretching the shape.
@@ -204,8 +254,18 @@ public class ShapeMouseHandler extends MouseAdapter{
 		shape.setY2(e.getY());
 	}
 
+	/*
+	 * Changes the visual selected status once dragging is done and clears the current shape.
+	 * (non-Javadoc)
+	 * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
+	 */
 	public void mouseReleased(MouseEvent e) {
+		if(shapeMarkedSelected) {
+			indicateSelectedShape(shape, false);
+			shapeMarkedSelected = false;
+		}
 		shape = null;
+		model.repaint();
 	}
 
 }

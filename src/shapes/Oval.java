@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 /**
- * Rectangle class for drawing ovals
+ * Oval class for drawing ovals
  * @author Stephen
  *
  */
