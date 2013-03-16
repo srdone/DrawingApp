@@ -7,6 +7,7 @@ import java.awt.Container;
 public abstract class Shape {
 	private int x1 = 10, y1 = 10, x2 = 20, y2 = 20;
 	private Color lineColor = Color.BLACK;
+	private boolean markedSelected;
 
 	/**
 	 * The empty constructor so a shape can be created without the user defining the size and line color
@@ -65,6 +66,10 @@ public abstract class Shape {
 	public Color getLineColor() {
 		return lineColor;
 	}
+	
+	public boolean isMarkedSelected() {
+		return markedSelected;
+	}
 
 	public void setX1(int x1) {
 		this.x1 = x1;
@@ -84,6 +89,10 @@ public abstract class Shape {
 
 	public void setLineColor(Color lineColor) {
 		this.lineColor = lineColor;
+	}
+	
+	public void setMarkedSelected(boolean markedSelected) {
+		this.markedSelected = markedSelected;
 	}
 
 	public String toString() {

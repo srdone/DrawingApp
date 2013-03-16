@@ -21,7 +21,6 @@ public class ShapeMouseHandler extends MouseAdapter{
 	private int startX;
 	private int startY;
 	private Shape shape;
-	private boolean shapeMarkedSelected;
 
 	/**
 	 * Constructor. Sets the model for this listener.
@@ -152,9 +151,9 @@ public class ShapeMouseHandler extends MouseAdapter{
 	 */
 	private void move(MouseEvent e) {
 		if(shape == null) shape = model.getShapeAt(e.getX(), e.getY());
-		if(!shapeMarkedSelected) {
+		if(!shape.isMarkedSelected()) {
 			indicateSelectedShape(shape, true);
-			shapeMarkedSelected = true;
+			shape.setMarkedSelected(true);
 		}
 		if(shape != null) {
 			setMovements(getDifference(e));
@@ -183,11 +182,11 @@ public class ShapeMouseHandler extends MouseAdapter{
 	private void darkenHue(Shape selectedShape) {
 		Color darkerLineColor = selectedShape.getLineColor().darker().darker().darker();
 		//Set the line color to the darker line color unless that is black, then set it to white.
-		selectedShape.setLineColor((darkerLineColor == Color.BLACK) ? Color.WHITE : darkerLineColor);
+		selectedShape.setLineColor((selectedShape.getLineColor() == Color.BLACK) ? Color.WHITE : darkerLineColor);
 		if(selectedShape instanceof ClosedShape) {
 			Color darkerFillColor = ((ClosedShape)selectedShape).getFillColor().darker().darker().darker();
 			//Set the line color to the darker fill color unless that is black, then set it to white.
-			((ClosedShape)selectedShape).setFillColor((darkerFillColor == Color.BLACK) ? Color.WHITE : darkerFillColor);
+			((ClosedShape)selectedShape).setFillColor((((ClosedShape) selectedShape).getFillColor() == Color.BLACK) ? Color.WHITE : darkerFillColor);
 		}
 	}
 
@@ -196,10 +195,14 @@ public class ShapeMouseHandler extends MouseAdapter{
 	 */
 	private void lightenHue(Shape selectedShape) {
 		Color lighterLineColor = selectedShape.getLineColor().brighter().brighter().brighter();
-		selectedShape.setLineColor((lighterLineColor == Color.WHITE) ? Color.BLACK : lighterLineColor);
+		//Set the line color to the lighter line color unless the current line color is white, then set it to black.
+		//We do this because that is the opposite of what darkenHue does, and it will return the shape to it's original state.
+		selectedShape.setLineColor((selectedShape.getLineColor() == Color.WHITE) ? Color.BLACK : lighterLineColor);
 		if(selectedShape instanceof ClosedShape) {
 			Color lighterFillColor = ((ClosedShape) selectedShape).getFillColor().brighter().brighter().brighter();
-			((ClosedShape)selectedShape).setFillColor((lighterFillColor == Color.WHITE) ? Color.BLACK : lighterFillColor);
+			//Set the line color to the lighter fill color unless the current fill color is white, then set it to black.
+			//We do this because that is the opposite of what darkenHue does, and it will return the shape to it's original state.
+			((ClosedShape)selectedShape).setFillColor((((ClosedShape) selectedShape).getFillColor() == Color.WHITE) ? Color.BLACK : lighterFillColor);
 		}
 	}
 
@@ -234,9 +237,9 @@ public class ShapeMouseHandler extends MouseAdapter{
 	private void resize(MouseEvent e) {
 		//Rezize
 		if(shape == null) shape = model.getShapeAt(e.getX(), e.getY());
-		if(!shapeMarkedSelected) {
+		if(!shape.isMarkedSelected()) {
 			indicateSelectedShape(shape, true);
-			shapeMarkedSelected = true;
+			shape.setMarkedSelected(true);
 		}
 		if(shape != null) {
 			System.out.println(shape);
@@ -260,9 +263,9 @@ public class ShapeMouseHandler extends MouseAdapter{
 	 * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
 	 */
 	public void mouseReleased(MouseEvent e) {
-		if(shapeMarkedSelected) {
+		if(shape.isMarkedSelected()) {
 			indicateSelectedShape(shape, false);
-			shapeMarkedSelected = false;
+			shape.setMarkedSelected(false);
 		}
 		shape = null;
 		model.repaint();
