@@ -29,6 +29,7 @@ public abstract class Shape {
 		this.x1 = x1;
 		this.y1 = y1;
 		this.lineColor = lineColor;
+		this.markedSelected = false;
 	}
 
 	/*

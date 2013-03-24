@@ -124,7 +124,7 @@ public class ShapeMouseHandler extends MouseAdapter{
 	 */
 	private void change(MouseEvent e) {
 		//Change line color, fill color, and fill status to current values on panel
-		Shape shape = model.getShapeAt(e.getX(), e.getY());
+		shape = model.getShapeAt(e.getX(), e.getY());
 		shape.setLineColor(model.getLineColor());
 		//Check to see if it is a closed shape - if it is, change the fill attributes
 		if(shape instanceof ClosedShape) {
@@ -263,12 +263,12 @@ public class ShapeMouseHandler extends MouseAdapter{
 	 * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
 	 */
 	public void mouseReleased(MouseEvent e) {
-		if(shape.isMarkedSelected()) {
+		if(shape != null && shape.isMarkedSelected()) {
 			indicateSelectedShape(shape, false);
 			shape.setMarkedSelected(false);
 		}
-		shape = null;
 		model.repaint();
+		shape = null;
 	}
 
 }
